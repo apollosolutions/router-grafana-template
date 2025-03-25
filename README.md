@@ -25,17 +25,14 @@ telemetry:
         http.server.request.duration:
           attributes:
             http.response.status_code: true
-            # This attribute will be set to true if the response contains graphql errors
             graphql.errors:
               on_graphql_error: true
       subgraph:
-        # Adding subgraph name, response status code from the subgraph
         http.client.request.duration:
           attributes:
             subgraph.name: true
             http.response.status_code:
               subgraph_response_status: code
-            # This attribute will be set to true if the response contains graphql errors
             graphql.errors:
               subgraph_on_graphql_error: true
         http.client.request.body.size:
