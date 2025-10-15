@@ -1,5 +1,7 @@
 # Apollo Router Grafana Dashboard Example
 
+NOTE: Please use the new [APM Template Repository](https://github.com/apollographql/apm-templates/tree/main/grafana)
+
 ![example dashboard preview](./imgs/dashboard-preview.png)
 
 This repository contains a [JSON file](./example-dashboard.json) containing an example [Grafana](https://grafana.com/oss/grafana/) dashboard for reference or use with the Apollo Router.
