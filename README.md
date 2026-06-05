@@ -37,6 +37,11 @@ telemetry:
               subgraph_response_status: code
             graphql.errors:
               subgraph_on_graphql_error: true
+            # Needed by the Subscriptions row to filter subgraph errors to subscription
+            # operations only. Without this attribute the "Subscription HTTP Errors by
+            # Subgraph" panel returns no series.
+            graphql.operation.type:
+              graphql_operation_type: true
         http.client.request.body.size:
           attributes:
             subgraph.name: true
@@ -45,6 +50,32 @@ telemetry:
         http.client.request.duration: true
         http.client.response.body.size: true
 ```
+
+## Subscriptions
+
+A dedicated **Subscriptions** row exposes the subscription-specific metrics
+Apollo Router emits out of the box. Tracks [AS-342] and
+[TSH-20886](https://apollographql.atlassian.net/browse/TSH-20886) (Coinbase request).
+
+| Panel | Source metric | Notes |
+| --- | --- | --- |
+| Opened Subscriptions | `apollo_router_opened_subscriptions` | Current count of open subscription sessions (gauge). |
+| Subscription Events — Deduplicated Rate | `apollo_router_deduplicated_subscriptions_event_count_total` | Rate of events delivered after Router deduplicates them across active sessions. |
+| Subscription Events — Skipped | `apollo_router_skipped_event_count_total` | Rate of events the Router dropped (e.g. no live subscribers). |
+| Subscription HTTP Errors by Subgraph | `http_client_request_duration_seconds_count` filtered by `graphql_operation_type="subscription"` and `graphql_errors="true"` | Requires the `graphql.operation.type` instrument attribute shown above. |
+
+The `apollo_router_opened_subscriptions`, `apollo_router_skipped_event_count_total`
+and `apollo_router_deduplicated_subscriptions_event_count_total` metrics are
+emitted by Router 2.x without any additional configuration as long as your
+Prometheus scrape is wired up to the Router OTel/Prometheus endpoint.
+
+To rebuild the dashboard JSON from the migration script (idempotent):
+
+```bash
+node scripts/add-subscriptions-row.mjs
+```
+
+[AS-342]: https://apollographql.atlassian.net/browse/AS-342
 
 ## Usage
 
