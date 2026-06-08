@@ -98,11 +98,11 @@ const subscriptionPanels = [
   opened,
   baseTimeseries(
     1001,
-    "Subscription Events — Deduplicated Rate",
-    "sum(rate(apollo_router_deduplicated_subscriptions_event_count_total[$__rate_interval]))",
+    "Subscriptions Rejected by Reason",
+    'sum by(reason) (rate(apollo_router_operations_subscriptions_rejected_total[$__rate_interval]))',
     {
       description:
-        "Rate of subscription events delivered after deduplication. Source: apollo.router.deduplicated_subscriptions.event.count.",
+        "Rate of subscription requests rejected by the Router, broken down by reason (max_opened_subscriptions_limit_reached or subgraph). Source: apollo.router.operations.subscriptions.rejected.",
       unit: "cps",
       gridPos: { h: 8, w: 12, x: 12, y: 1 },
     },
