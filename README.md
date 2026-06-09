@@ -60,14 +60,14 @@ Apollo Router emits out of the box. Tracks [AS-342] and
 | Panel | Source metric | Notes |
 | --- | --- | --- |
 | Opened Subscriptions | `apollo_router_opened_subscriptions` | Current count of open subscription sessions (gauge). |
-| Subscription Events — Deduplicated Rate | `apollo_router_deduplicated_subscriptions_event_count_total` | Rate of events delivered after Router deduplicates them across active sessions. |
+| Subscriptions Rejected by Reason | `apollo_router_operations_subscriptions_rejected_total` (label: `reason`) | Rate of subscription requests the Router rejected, broken down by `reason` (`max_opened_subscriptions_limit_reached` or `subgraph`). |
 | Subscription Events — Skipped | `apollo_router_skipped_event_count_total` | Rate of events the Router dropped (e.g. no live subscribers). |
 | Subscription HTTP Errors by Subgraph | `http_client_request_duration_seconds_count` filtered by `graphql_operation_type="subscription"` and `graphql_errors="true"` | Requires the `graphql.operation.type` instrument attribute shown above. |
 
-The `apollo_router_opened_subscriptions`, `apollo_router_skipped_event_count_total`
-and `apollo_router_deduplicated_subscriptions_event_count_total` metrics are
-emitted by Router 2.x without any additional configuration as long as your
-Prometheus scrape is wired up to the Router OTel/Prometheus endpoint.
+`apollo_router_opened_subscriptions`, `apollo_router_skipped_event_count_total`,
+and `apollo_router_operations_subscriptions_rejected_total` are emitted by
+Router 2.x without any additional configuration as long as your Prometheus
+scrape is wired up to the Router OTel/Prometheus endpoint.
 
 To rebuild the dashboard JSON from the migration script (idempotent):
 

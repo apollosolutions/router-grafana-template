@@ -1128,7 +1128,7 @@
                 "uid": "${datasource}"
               },
               "disableTextWrap": false,
-              "editorMode": "builder",
+              "editorMode": "code",
               "expr": "apollo_router_opened_subscriptions",
               "fullMetaSearch": false,
               "includeNullMetadata": true,
@@ -1146,7 +1146,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "description": "Rate of subscription events delivered after deduplication. Source: apollo.router.deduplicated_subscriptions.event.count.",
+          "description": "Rate of subscription requests rejected by the Router, broken down by reason (max_opened_subscriptions_limit_reached or subgraph). Source: apollo.router.operations.subscriptions.rejected.",
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -1229,16 +1229,16 @@
               },
               "disableTextWrap": false,
               "editorMode": "code",
-              "expr": "sum(rate(apollo_router_deduplicated_subscriptions_event_count_total[$__rate_interval]))",
+              "expr": "sum by(reason) (rate(apollo_router_operations_subscriptions_rejected_total[$__rate_interval]))",
               "fullMetaSearch": false,
               "includeNullMetadata": true,
-              "legendFormat": "Subscription Events — Deduplicated Rate",
+              "legendFormat": "Subscriptions Rejected by Reason",
               "range": true,
               "refId": "A",
               "useBackend": false
             }
           ],
-          "title": "Subscription Events — Deduplicated Rate",
+          "title": "Subscriptions Rejected by Reason",
           "type": "timeseries"
         },
         {
